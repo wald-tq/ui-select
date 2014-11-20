@@ -204,6 +204,15 @@ describe('ui-select tests', function() {
     expect(isDropdownOpened(el)).toEqual(false);
   });
 
+  it('should append ng-touched css class after it has been touched', function () {
+
+    var el = createUiSelect({theme: 'select2'});
+
+    clickMatch(el);
+    el.find(".ui-select-toggle").click();
+
+    expect($(el).hasClass('ng-touched')).toEqual(true);
+  });
 
   it('should open/close dropdown when clicking caret icon', function() {
 

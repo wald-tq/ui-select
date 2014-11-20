@@ -365,6 +365,7 @@
       if (!ctrl.open) return;        
       _resetSearchInput();
       ctrl.open = false;
+      ctrl.touched = true;
       if (!ctrl.multiple){
         $timeout(function(){
           ctrl.focusser.prop('disabled', false);

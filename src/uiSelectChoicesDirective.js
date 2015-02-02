@@ -28,6 +28,7 @@ uis.directive('uiSelectChoices',
         $select.disableChoiceExpression = attrs.uiDisableChoice;
         $select.onHighlightCallback = attrs.onHighlight;
 
+        $select.refreshOnActive = scope.$eval(attrs.refreshOnActive);
         $select.dropdownPosition = attrs.position ? attrs.position.toLowerCase() : uiSelectConfig.dropdownPosition;
 
         if(groupByExp) {
@@ -54,7 +55,15 @@ uis.directive('uiSelectChoices',
         scope.$watch('$select.search', function(newValue) {
           if(newValue && !$select.open && $select.multiple) $select.activate(false, true);
           $select.activeIndex = $select.tagging.isActivated ? -1 : 0;
-          $select.refresh(attrs.refresh);
+          if(!$select.refreshOnActive || ($select.refreshOnActive && $select.refreshIsActive)) {
+            $select.refresh(attrs.refresh);
+          }
+        });
+
+        scope.$watch('$select.refreshIsActive', function(newValue, oldValue){
+          if(angular.isUndefined(oldValue) && newValue){
+            $select.refresh(attrs.refresh);
+          }
         });
 
         attrs.$observe('refreshDelay', function() {
